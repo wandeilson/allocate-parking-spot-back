@@ -2,19 +2,19 @@ package br.edu.ifpb.dac.wandeilson.projeto2jpa.models;
 
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table (name="apartment")
 public class Apartment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_apartment")
 	private Long idApartment;
+
+	@OneToOne
+	@JoinColumn(name = "id_parking_spot")
+	private ParkingSpot parkingSpot;
 	
 	@Column(nullable = false)
 	private String block;
@@ -31,6 +31,14 @@ public class Apartment {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public void setParkingSpot (ParkingSpot parkingSpot){
+		this.parkingSpot = parkingSpot;
+	}
+
+	public ParkingSpot getParkingSpot(){
+		return this.parkingSpot;
 	}
 
 	public Long getIdApartment() {
@@ -68,6 +76,12 @@ public class Apartment {
 
 	@Override
 	public String toString() {
-		return "Apartment [id=" + idApartment + ", block=" + block + ", nameLocator=" + nameLocator + "]";
+		return "Apartment{" +
+				"idApartment=" + idApartment +
+				", parkingSpot=" + parkingSpot +
+				", block='" + block + '\'' +
+				", nameLocator='" + nameLocator + '\'' +
+				", number='" + number + '\'' +
+				'}';
 	}
 }

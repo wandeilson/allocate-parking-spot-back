@@ -5,6 +5,7 @@ import br.edu.ifpb.dac.wandeilson.projeto2jpa.services.ParkingSpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -27,5 +28,9 @@ public class ParkingSpotController {
 
     public void readByID (Long idParkingSpot){
         System.out.println(parkingSpotService.readById(idParkingSpot).toString());
+    }
+
+    public List<ParkingSpot> showAll() {
+       return parkingSpotService.showAll();
     }
 }

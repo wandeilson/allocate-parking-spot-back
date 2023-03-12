@@ -1,13 +1,12 @@
 package br.edu.ifpb.dac.wandeilson.projeto2jpa.controllers;
 
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.Apartment;
-import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.ParkingSpot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.services.ApartmentService;
 
-import java.util.UUID;
+import java.util.List;
 
 @Controller
 public class ApartmentController {
@@ -28,6 +27,14 @@ public class ApartmentController {
 	}
 
 	public void readByID (Long idApartment) {
+		System.out.println(apartmentService.readById(idApartment).toString());
+	}
 
+	public List<Apartment> showAll() {
+		return apartmentService.showAll();
+	}
+
+	public void setParkingSpot(Long idApartment, Long idParkingSpot){
+		apartmentService.setParkingSpot( idApartment ,idParkingSpot);
 	}
 }

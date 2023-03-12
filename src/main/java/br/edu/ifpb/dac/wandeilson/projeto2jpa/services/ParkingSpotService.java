@@ -5,6 +5,7 @@ import br.edu.ifpb.dac.wandeilson.projeto2jpa.repositories.ParkingSpotRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -23,6 +24,7 @@ public class ParkingSpotService {
 
     public void deleteById(Long idParkingSpot) {
         parkingSpotRepository.deleteById(idParkingSpot);
+        System.out.println("Parking Spot successfully deleted .");
     }
 
 
@@ -43,5 +45,9 @@ public class ParkingSpotService {
             return pkSpot;
         }
         return null;
+    }
+
+    public List<ParkingSpot> showAll() {
+       return parkingSpotRepository.findAll();
     }
 }

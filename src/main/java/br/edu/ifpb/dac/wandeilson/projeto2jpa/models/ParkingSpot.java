@@ -2,12 +2,7 @@ package br.edu.ifpb.dac.wandeilson.projeto2jpa.models;
 
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table (name="parking_spot")
@@ -15,8 +10,8 @@ public class ParkingSpot {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_parking_spot")
 	private Long idParkingSpot;
-	
 	@Column (nullable = false)
 	private String number;
 
@@ -42,7 +37,7 @@ public class ParkingSpot {
 	}
 	@Override
 	public String toString() {
-		return "ParkingSpot [id=" + idParkingSpot + ", number=" + number + "]";
+		return "ParkingSpot [id=" + idParkingSpot + ", number=" + number +"]" ;
 	}
 
 }
