@@ -9,6 +9,4 @@ import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.ParkingSpot;
 
 @Repository
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Long>{
-
-
 }

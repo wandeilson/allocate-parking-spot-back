@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class ParkingSpotService {
 
@@ -29,7 +28,6 @@ public class ParkingSpotService {
     public void deleteById(Long idParkingSpot) {
         parkingSpotRepository.deleteById(idParkingSpot);
     }
-
 
     public ParkingSpotDTO update(ParkingSpotDTO parkingSpotDTO, Long id) throws Exception {
         Optional<ParkingSpot> parkingSpotSaved = parkingSpotRepository.findById(id);

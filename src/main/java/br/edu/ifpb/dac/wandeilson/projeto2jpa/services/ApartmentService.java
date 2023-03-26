@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.Apartment;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.repositories.ApartmentRepository;
 
-import javax.sql.rowset.BaseRowSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -3,21 +3,20 @@ package br.edu.ifpb.dac.wandeilson.projeto2jpa.controllers;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.dtos.ApartmentDTO;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.Apartment;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.services.ApartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/apartment")
 public class ApartmentController {
 	
-	@Autowired
-	private ApartmentService apartmentService;
+	private final ApartmentService apartmentService;
+
+	public ApartmentController(ApartmentService apartmentService) {
+		this.apartmentService = apartmentService;
+	}
 
 	@PostMapping
 	public ResponseEntity<Object> create (@RequestBody @Valid Apartment apartment) {
@@ -51,7 +50,6 @@ public class ApartmentController {
 		} catch (Exception e){
 			throw new RuntimeException(e.getMessage());
 		}
-
 	}
 
 	public void setParkingSpot(Long idApartment, Long idParkingSpot){
