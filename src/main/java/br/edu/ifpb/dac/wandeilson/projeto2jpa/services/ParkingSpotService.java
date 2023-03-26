@@ -1,10 +1,13 @@
 package br.edu.ifpb.dac.wandeilson.projeto2jpa.services;
 
+import br.edu.ifpb.dac.wandeilson.projeto2jpa.dtos.ParkingSpotDTO;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.ParkingSpot;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.repositories.ParkingSpotRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,38 +19,48 @@ public class ParkingSpotService {
     private ParkingSpotRepository parkingSpotRepository;
 
 
-    public void create(String number) {
-        ParkingSpot parkingSpot = new ParkingSpot(number);
-        parkingSpotRepository.save(parkingSpot);
-        System.out.println("Parking Spot saved successfully.");
+    public ParkingSpotDTO create(ParkingSpot parkingSpot) {
+        ParkingSpotDTO parkingSpotDTO = new ParkingSpotDTO();
+        BeanUtils.copyProperties(parkingSpotRepository.save(parkingSpot),
+                parkingSpotDTO,"idParkingSpot");
+        return parkingSpotDTO;
     }
 
     public void deleteById(Long idParkingSpot) {
         parkingSpotRepository.deleteById(idParkingSpot);
-        System.out.println("Parking Spot successfully deleted .");
     }
 
 
-    public void update(Long idParkingSpot, ParkingSpot parkingSpot) {
-        Optional<ParkingSpot> parkingSpotSaved = parkingSpotRepository.findById(idParkingSpot);
+    public ParkingSpotDTO update(ParkingSpotDTO parkingSpotDTO, Long id) throws Exception {
+        Optional<ParkingSpot> parkingSpotSaved = parkingSpotRepository.findById(id);
         if(parkingSpotSaved.isPresent()){
             ParkingSpot pkSpot = parkingSpotSaved.get();
-            pkSpot.setId(parkingSpot.getId());
-            pkSpot.setNumber(parkingSpot.getNumber());
+            BeanUtils.copyProperties(parkingSpotDTO,pkSpot);
             parkingSpotRepository.save(pkSpot);
+            return parkingSpotDTO;
         }
+        throw new Exception("Error when updating.");
     }
 
-    public ParkingSpot readById(Long idParkingSpot) {
+    public ParkingSpotDTO readById(Long idParkingSpot) throws Exception {
         Optional<ParkingSpot> parkingSpotSaved = parkingSpotRepository.findById(idParkingSpot);
         if(parkingSpotSaved.isPresent()){
             ParkingSpot pkSpot = parkingSpotSaved.get();
-            return pkSpot;
+            ParkingSpotDTO pkSpotDTO = new ParkingSpotDTO();
+            BeanUtils.copyProperties(pkSpot, pkSpotDTO,"idParkingSpot");
+            return pkSpotDTO;
         }
-        return null;
+        throw new Exception("Error when updating.");
     }
 
-    public List<ParkingSpot> showAll() {
-       return parkingSpotRepository.findAll();
+    public List<ParkingSpotDTO> showAll() {
+        List<ParkingSpot> parkingSpots = parkingSpotRepository.findAll();
+        List<ParkingSpotDTO> parkingSpotDTOS = new ArrayList<>();
+        for (ParkingSpot pkSpot: parkingSpots) {
+            ParkingSpotDTO pkSpotDTO = new ParkingSpotDTO();
+            BeanUtils.copyProperties(pkSpot, pkSpotDTO, "idParkingSpot");
+            parkingSpotDTOS.add(pkSpotDTO);
+        }
+        return parkingSpotDTOS;
     }
 }

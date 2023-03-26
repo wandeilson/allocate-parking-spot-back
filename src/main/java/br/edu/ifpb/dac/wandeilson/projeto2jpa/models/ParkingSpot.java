@@ -18,11 +18,9 @@ public class ParkingSpot {
 	public ParkingSpot(String number) {
 		this.number = number;
 	}
-
 	public ParkingSpot (){
 
 	}
-
 	public Long getId() {
 		return idParkingSpot;
 	}
@@ -37,7 +35,7 @@ public class ParkingSpot {
 	}
 	@Override
 	public String toString() {
-		return "ParkingSpot [id=" + idParkingSpot + ", number=" + number +"]" ;
+		return "ParkingSpot [number=" + number +"]" ;
 	}
 
 }
