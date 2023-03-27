@@ -44,6 +44,26 @@ public class ApartmentService {
 		throw new Exception("Error when updating.");
 	}
 
+
+	public ApartmentDTO updateParkingSpot(Long id, Long idParkingSpot) throws Exception {
+		Optional<Apartment> apartmentSaved = apartmentRepository.findById(id);
+		if(apartmentSaved.isPresent()){
+			Apartment apt = apartmentSaved.get();
+			Optional<ParkingSpot> pkSpotSaved = parkingSpotRepository.findById(idParkingSpot);
+			if (pkSpotSaved.isPresent()){
+				ParkingSpot pkSpot = pkSpotSaved.get();
+				apt.setParkingSpot(pkSpot);
+			}
+			ApartmentDTO aptDTO = new ApartmentDTO();
+			BeanUtils.copyProperties(apt,aptDTO,"idApartment");
+			apartmentRepository.save(apt);
+			return aptDTO;
+		}
+		throw new Exception("Error when updating.");
+	}
+
+
+
 	public ApartmentDTO readById(Long idApartment) throws Exception {
 		Optional<Apartment> apartmentSaved = apartmentRepository.findById(idApartment);
 		if(apartmentSaved.isPresent()){

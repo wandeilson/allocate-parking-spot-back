@@ -32,7 +32,16 @@ public class ApartmentController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> update ( @PathVariable(value = "id") Long id, @RequestBody @Valid ApartmentDTO apartmentDTO){
 		try {
-			 return ResponseEntity.status(HttpStatus.OK).body( apartmentService.update(apartmentDTO, id));
+			 return ResponseEntity.ok(apartmentService.update(apartmentDTO, id));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@PutMapping("/{id}/{idParkingSpot}")
+	public ResponseEntity<Object> update ( @PathVariable(value = "id") Long id, @PathVariable(value = "idParkingSpot") Long idParkingSpot){
+		try {
+			return ResponseEntity.ok(apartmentService.updateParkingSpot(id, idParkingSpot));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
