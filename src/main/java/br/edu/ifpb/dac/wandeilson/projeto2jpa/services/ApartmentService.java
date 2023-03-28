@@ -62,8 +62,6 @@ public class ApartmentService {
 		throw new Exception("Error when updating.");
 	}
 
-
-
 	public ApartmentDTO readById(Long idApartment) throws Exception {
 		Optional<Apartment> apartmentSaved = apartmentRepository.findById(idApartment);
 		if(apartmentSaved.isPresent()){
