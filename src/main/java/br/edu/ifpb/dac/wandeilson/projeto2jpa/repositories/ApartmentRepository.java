@@ -9,6 +9,4 @@ import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.Apartment;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment, Long>{
-	
-	
 }

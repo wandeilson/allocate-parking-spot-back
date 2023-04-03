@@ -1,36 +1,52 @@
 package br.edu.ifpb.dac.wandeilson.projeto2jpa.controllers;
 
+import br.edu.ifpb.dac.wandeilson.projeto2jpa.dtos.ParkingSpotDTO;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.ParkingSpot;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.services.ParkingSpotService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
-
-@Controller
+@RestController
+@RequestMapping("/api/parking-spot")
 public class ParkingSpotController {
 
-    @Autowired
-    private ParkingSpotService parkingSpotService;
+    private final ParkingSpotService parkingSpotService;
 
-    public void create (String number){
-        parkingSpotService.create(number);
+    public ParkingSpotController(ParkingSpotService parkingSpotService) {
+        this.parkingSpotService = parkingSpotService;
     }
 
-    public void deleteById(Long idParkingSpot){
-        parkingSpotService.deleteById(idParkingSpot);
+    @PostMapping
+    public ResponseEntity<Object> create (@RequestBody @Valid ParkingSpot parkingSpot){
+       return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.create(parkingSpot));
     }
 
-    public void update (Long idParkingSpot, ParkingSpot parkingSpot){
-        parkingSpotService.update(idParkingSpot, parkingSpot);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteById( @PathVariable(value = "id") Long id){
+        parkingSpotService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update (@PathVariable(value = "id") Long id, @RequestBody @Valid ParkingSpotDTO parkingSpotDTO){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body( parkingSpotService.update(parkingSpotDTO, id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping()
+    public ResponseEntity<Object> showAll() {
+       return ResponseEntity.status(HttpStatus.OK).body( parkingSpotService.showAll());
     }
 
-    public void readByID (Long idParkingSpot){
-        System.out.println(parkingSpotService.readById(idParkingSpot).toString());
-    }
-
-    public List<ParkingSpot> showAll() {
-       return parkingSpotService.showAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> readById( @PathVariable(value = "id") Long id ){
+        try {
+           return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.readById(id));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

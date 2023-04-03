@@ -1,13 +1,16 @@
 package br.edu.ifpb.dac.wandeilson.projeto2jpa.services;
 
+import br.edu.ifpb.dac.wandeilson.projeto2jpa.dtos.ApartmentDTO;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.ParkingSpot;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.repositories.ParkingSpotRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.models.Apartment;
 import br.edu.ifpb.dac.wandeilson.projeto2jpa.repositories.ApartmentRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,40 +22,66 @@ public class ApartmentService {
 	@Autowired
 	private ParkingSpotRepository parkingSpotRepository;
 	
-	public void create(String block, String nameLocator, String number) {
-		Apartment apartment = new Apartment(block, nameLocator, number);
-		apartmentRepository.save(apartment);
-		System.out.println("Apartment saved successfully.");
+	public ApartmentDTO create(Apartment apartment) {
+		ApartmentDTO apartmentDTO = new ApartmentDTO();
+		BeanUtils.copyProperties(apartmentRepository.save(apartment),
+				apartmentDTO,"idApartment");
+		return apartmentDTO;
 	}
 
     public void deleteById(Long idApartment) {
 		apartmentRepository.deleteById(idApartment);
-		System.out.println("Apartment successfully deleted.");
     }
 
-	public void update(Long idApartment, Apartment apartment) {
-		Optional<Apartment> apartmentSaved = apartmentRepository.findById(idApartment);
+	public ApartmentDTO update(ApartmentDTO apartmentDTO, Long id) throws Exception {
+		Optional<Apartment> apartmentSaved = apartmentRepository.findById(id);
 		if(apartmentSaved.isPresent()){
 			Apartment apt = apartmentSaved.get();
-			apt.setBlock(apartment.getBlock());
-			apt.setNumber(apartment.getNumber());
-			apt.setNameLocator(apartment.getNameLocator());
+			BeanUtils.copyProperties(apartmentDTO,apt);
 			apartmentRepository.save(apt);
-			System.out.println("Update performed successfully.");
+			return apartmentDTO;
 		}
+		throw new Exception("Error when updating.");
 	}
 
-	public Apartment readById(Long idApartment) {
+
+	public ApartmentDTO updateParkingSpot(Long id, Long idParkingSpot) throws Exception {
+		Optional<Apartment> apartmentSaved = apartmentRepository.findById(id);
+		if(apartmentSaved.isPresent()){
+			Apartment apt = apartmentSaved.get();
+			Optional<ParkingSpot> pkSpotSaved = parkingSpotRepository.findById(idParkingSpot);
+			if (pkSpotSaved.isPresent()){
+				ParkingSpot pkSpot = pkSpotSaved.get();
+				apt.setParkingSpot(pkSpot);
+			}
+			ApartmentDTO aptDTO = new ApartmentDTO();
+			BeanUtils.copyProperties(apt,aptDTO,"idApartment");
+			apartmentRepository.save(apt);
+			return aptDTO;
+		}
+		throw new Exception("Error when updating.");
+	}
+
+	public ApartmentDTO readById(Long idApartment) throws Exception {
 		Optional<Apartment> apartmentSaved = apartmentRepository.findById(idApartment);
 		if(apartmentSaved.isPresent()){
 			Apartment apt = apartmentSaved.get();
-			return apt;
+			ApartmentDTO apartmentDTO = new ApartmentDTO();
+			BeanUtils.copyProperties(apt,apartmentDTO,"idApartment");
+			return apartmentDTO;
 		}
-		return null;
+		throw new Exception("Error when searching for apartment.");
 	}
 
-	public List<Apartment> showAll() {
-		return apartmentRepository.findAll();
+	public List<ApartmentDTO> showAll() {
+		List<Apartment> apartments = apartmentRepository.findAll();
+		List<ApartmentDTO> apartmentDTOS = new ArrayList<>();
+		for (Apartment apt: apartments) {
+			ApartmentDTO aptDTO = new ApartmentDTO();
+			BeanUtils.copyProperties(apt,aptDTO,"idApartment");
+			apartmentDTOS.add(aptDTO);
+		}
+		return apartmentDTOS;
 	}
 
 	public void setParkingSpot(Long idParkingSpot, Long parkingSpot) {

@@ -1,7 +1,5 @@
 package br.edu.ifpb.dac.wandeilson.projeto2jpa.models;
 
-import java.util.UUID;
-
 import jakarta.persistence.*;
 
 @Entity
