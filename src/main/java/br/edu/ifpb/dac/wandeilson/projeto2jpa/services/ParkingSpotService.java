@@ -21,7 +21,7 @@ public class ParkingSpotService {
     public ParkingSpotDTO create(ParkingSpot parkingSpot) {
         ParkingSpotDTO parkingSpotDTO = new ParkingSpotDTO();
         BeanUtils.copyProperties(parkingSpotRepository.save(parkingSpot),
-                parkingSpotDTO,"idParkingSpot");
+                parkingSpotDTO);
         return parkingSpotDTO;
     }
 
@@ -45,20 +45,20 @@ public class ParkingSpotService {
         if(parkingSpotSaved.isPresent()){
             ParkingSpot pkSpot = parkingSpotSaved.get();
             ParkingSpotDTO pkSpotDTO = new ParkingSpotDTO();
-            BeanUtils.copyProperties(pkSpot, pkSpotDTO,"idParkingSpot");
+            BeanUtils.copyProperties(pkSpot, pkSpotDTO);
             return pkSpotDTO;
         }
         throw new Exception("Error when updating.");
     }
 
-    public List<ParkingSpotDTO> showAll() {
-        List<ParkingSpot> parkingSpots = parkingSpotRepository.findAll();
-        List<ParkingSpotDTO> parkingSpotDTOS = new ArrayList<>();
-        for (ParkingSpot pkSpot: parkingSpots) {
-            ParkingSpotDTO pkSpotDTO = new ParkingSpotDTO();
-            BeanUtils.copyProperties(pkSpot, pkSpotDTO, "idParkingSpot");
-            parkingSpotDTOS.add(pkSpotDTO);
-        }
-        return parkingSpotDTOS;
+    public List<ParkingSpot> showAll() {
+        return parkingSpotRepository.findAll();
+        //List<ParkingSpotDTO> parkingSpotDTOS = new ArrayList<>();
+       // for (ParkingSpot pkSpot: parkingSpots) {
+         //   ParkingSpotDTO pkSpotDTO = new ParkingSpotDTO();
+         //   BeanUtils.copyProperties(pkSpot, pkSpotDTO);
+         //   parkingSpotDTOS.add(pkSpotDTO);
+     //   }
+     //   return parkingSpotDTOS;
     }
 }

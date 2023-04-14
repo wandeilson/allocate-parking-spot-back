@@ -25,7 +25,7 @@ public class ApartmentService {
 	public ApartmentDTO create(Apartment apartment) {
 		ApartmentDTO apartmentDTO = new ApartmentDTO();
 		BeanUtils.copyProperties(apartmentRepository.save(apartment),
-				apartmentDTO,"idApartment");
+				apartmentDTO);
 		return apartmentDTO;
 	}
 
@@ -55,7 +55,7 @@ public class ApartmentService {
 				apt.setParkingSpot(pkSpot);
 			}
 			ApartmentDTO aptDTO = new ApartmentDTO();
-			BeanUtils.copyProperties(apt,aptDTO,"idApartment");
+			BeanUtils.copyProperties(apt,aptDTO);
 			apartmentRepository.save(apt);
 			return aptDTO;
 		}
@@ -67,7 +67,7 @@ public class ApartmentService {
 		if(apartmentSaved.isPresent()){
 			Apartment apt = apartmentSaved.get();
 			ApartmentDTO apartmentDTO = new ApartmentDTO();
-			BeanUtils.copyProperties(apt,apartmentDTO,"idApartment");
+			BeanUtils.copyProperties(apt,apartmentDTO);
 			return apartmentDTO;
 		}
 		throw new Exception("Error when searching for apartment.");
@@ -78,7 +78,7 @@ public class ApartmentService {
 		List<ApartmentDTO> apartmentDTOS = new ArrayList<>();
 		for (Apartment apt: apartments) {
 			ApartmentDTO aptDTO = new ApartmentDTO();
-			BeanUtils.copyProperties(apt,aptDTO,"idApartment");
+			BeanUtils.copyProperties(apt,aptDTO);
 			apartmentDTOS.add(aptDTO);
 		}
 		return apartmentDTOS;
