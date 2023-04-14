@@ -9,8 +9,21 @@ public class ApartmentDTO {
     @Column(nullable = false)
     private String block;
 
+    @Column (nullable = false)
+    private String number;
+
     @Column(nullable = false)
     private String nameLocator;
+
+    private Long idApartment;
+
+    public Long getIdApartment() {
+        return idApartment;
+    }
+
+    public void setIdApartment(Long idApartment) {
+        this.idApartment = idApartment;
+    }
 
     public ParkingSpot getParkingSpot() {
         return parkingSpot;
@@ -44,6 +57,5 @@ public class ApartmentDTO {
         this.number = number;
     }
 
-    @Column (nullable = false)
-    private String number;
+
 }

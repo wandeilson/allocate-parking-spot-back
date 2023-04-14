@@ -1,6 +1,7 @@
 package br.edu.ifpb.dac.wandeilson.projeto2jpa.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table (name="parking_spot")
@@ -11,6 +12,7 @@ public class ParkingSpot {
 	@Column(name = "id_parking_spot")
 	private Long idParkingSpot;
 	@Column (nullable = false)
+	@NotNull()
 	private String number;
 
 	public ParkingSpot(String number) {
