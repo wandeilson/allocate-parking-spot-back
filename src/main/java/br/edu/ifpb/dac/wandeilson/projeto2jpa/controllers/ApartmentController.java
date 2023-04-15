@@ -23,7 +23,7 @@ public class ApartmentController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(apartmentService.create(apartment));
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<Object> deleteById( @PathVariable(value = "id") Long id){
 		apartmentService.deleteById(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

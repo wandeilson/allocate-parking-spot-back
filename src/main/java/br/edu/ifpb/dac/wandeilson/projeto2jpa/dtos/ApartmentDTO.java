@@ -56,6 +56,4 @@ public class ApartmentDTO {
     public void setNumber(String number) {
         this.number = number;
     }
-
-
 }

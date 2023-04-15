@@ -37,7 +37,7 @@ public class ApartmentService {
 		Optional<Apartment> apartmentSaved = apartmentRepository.findById(id);
 		if(apartmentSaved.isPresent()){
 			Apartment apt = apartmentSaved.get();
-			BeanUtils.copyProperties(apartmentDTO,apt);
+			BeanUtils.copyProperties(apartmentDTO,apt,"idApartment");
 			apartmentRepository.save(apt);
 			return apartmentDTO;
 		}
